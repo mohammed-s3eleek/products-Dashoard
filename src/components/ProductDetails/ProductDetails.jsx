@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { FaShoppingCart } from "react-icons/fa";
 import { useParams } from "react-router-dom";
 import { getProductById } from "../../Api/index";
 
@@ -6,6 +7,7 @@ const ProductDetails = () => {
 	const { id } = useParams();
 	const [product, setProduct] = useState(null);
 	const [loading, setLoading] = useState(true);
+	const [addedCount, setAddedCount] = useState(0);
 
 	useEffect(() => {
 		setLoading(true);
@@ -14,6 +16,23 @@ const ProductDetails = () => {
 			setLoading(false);
 		});
 	}, [id]);
+
+	const addToCart = (product) => {
+		try {
+			const raw = localStorage.getItem("cart") || "[]";
+			const items = JSON.parse(raw);
+			const idx = items.findIndex((i) => i.id === product.id);
+			if (idx >= 0) {
+				items[idx].quantity = (items[idx].quantity || 1) + 1;
+			} else {
+				items.push({ ...product, quantity: 1 });
+			}
+			localStorage.setItem("cart", JSON.stringify(items));
+			setAddedCount((c) => c + 1);
+		} catch (err) {
+			console.error("addToCart error", err);
+		}
+	};
 
 	if (loading) {
 		return (
@@ -49,8 +68,8 @@ const ProductDetails = () => {
 	}
 
 	return (
-		<div className="bg-white py-8 px-6">
-			<div className="max-w-4xl mx-auto">
+		<div className="bg-gray-50 py-8 px-6">
+			<div className="max-w-4xl mx-auto bg-white rounded-lg shadow p-6">
 				<div className="grid grid-cols-1 md:grid-cols-2 gap-8">
 					<div>
 						<img
@@ -81,6 +100,20 @@ const ProductDetails = () => {
 						</div>
 
 						<div className="flex items-center gap-4">
+							<div className="mt-4 flex items-center gap-3">
+								<button
+									type="button"
+									onClick={() => addToCart(product)}
+									className="inline-flex items-center gap-3 bg-indigo-600 hover:bg-indigo-700 text-white px-5 py-3 rounded-md shadow-lg text-base font-semibold">
+									<FaShoppingCart className="w-5 h-5" />
+									Add to cart
+								</button>
+								{addedCount > 0 && (
+									<span className="text-sm text-amber-600">
+										Added {addedCount}×
+									</span>
+								)}
+							</div>
 							<div className="flex items-center gap-2">
 								<span className="text-yellow-500 text-lg">⭐</span>
 								<span className="text-lg font-medium">{product.rating}</span>

@@ -1,10 +1,11 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const Footer = () => {
 	return (
-		<footer className="bg-gray-50 border-t border-gray-200 px-6 py-8">
+		<footer className="bg-gray-50 border-t border-gray-200 px-8 py-12">
 			<div className="max-w-6xl mx-auto">
-				<div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+				<div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-start">
 					<div>
 						<h3 className="text-sm font-semibold text-gray-900 mb-3">
 							Shop Dashboard
@@ -14,61 +15,48 @@ const Footer = () => {
 							shopping experiences.
 						</p>
 					</div>
+
 					<div>
 						<h4 className="text-sm font-medium text-gray-900 mb-3">
 							Quick Links
 						</h4>
-						<ul className="space-y-2">
+						<ul className="grid grid-cols-2 gap-4 text-sm text-gray-600">
 							<li>
-								<a
-									href="/"
-									className="text-sm text-gray-600 hover:text-gray-900 transition-colors">
+								<Link
+									to="/"
+									className="hover:text-indigo-700 transition-colors"
+									aria-label="Products">
 									Products
-								</a>
+								</Link>
 							</li>
 							<li>
-								<a
-									href="/offers"
-									className="text-sm text-gray-600 hover:text-gray-900 transition-colors">
+								<Link
+									to="/favorites"
+									className="hover:text-indigo-700 transition-colors"
+									aria-label="Favorites">
 									Favorites
-								</a>
+								</Link>
 							</li>
 							<li>
-								<a
-									href="/about"
-									className="text-sm text-gray-600 hover:text-gray-900 transition-colors">
+								<Link
+									to="/about"
+									className="hover:text-indigo-700 transition-colors"
+									aria-label="About">
 									About
-								</a>
-							</li>
-						</ul>
-					</div>
-					<div>
-						<h4 className="text-sm font-medium text-gray-900 mb-3">Support</h4>
-						<ul className="space-y-2">
-							<li>
-								<a
-									href="/help"
-									className="text-sm text-gray-600 hover:text-gray-900 transition-colors">
-									Help Center
-								</a>
+								</Link>
 							</li>
 							<li>
-								<a
-									href="/contact"
-									className="text-sm text-gray-600 hover:text-gray-900 transition-colors">
-									Contact Us
-								</a>
-							</li>
-							<li>
-								<a
-									href="/shipping"
-									className="text-sm text-gray-600 hover:text-gray-900 transition-colors">
-									Shipping Info
-								</a>
+								<Link
+									to="/contact"
+									className="hover:text-indigo-700 transition-colors"
+									aria-label="Contact">
+									Contact
+								</Link>
 							</li>
 						</ul>
 					</div>
 				</div>
+
 				<div className="border-t border-gray-200 mt-8 pt-6">
 					<p className="text-xs text-gray-500 text-center">
 						© 2026 Shop Dashboard. All rights reserved.
