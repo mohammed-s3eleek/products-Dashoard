@@ -1,4 +1,4 @@
-// import { FaShoppingCart } from "react-icons/fa";
+import { FaShoppingCart } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { useFavorites } from "../../contexts/FavoritesContext";
 
@@ -11,6 +11,24 @@ const ProductCard = ({ product }) => {
 			removeFromFavorites(product.id);
 		} else {
 			addToFavorites(product);
+		}
+	};
+
+	const addToCart = (product) => {
+		try {
+			const raw = localStorage.getItem("cart") || "[]";
+			const items = JSON.parse(raw);
+			const idx = items.findIndex((i) => i.id === product.id);
+			if (idx >= 0) {
+				items[idx].quantity = (items[idx].quantity || 1) + 1;
+			} else {
+				items.push({ ...product, quantity: 1 });
+			}
+			localStorage.setItem("cart", JSON.stringify(items));
+			// lightweight feedback
+			console.debug(`Added to cart: ${product.title}`);
+		} catch (err) {
+			console.error("addToCart error", err);
 		}
 	};
 
@@ -55,9 +73,23 @@ const ProductCard = ({ product }) => {
 							<span className="text-yellow-500 text-sm">⭐</span>
 							<span className="text-sm text-gray-700">{product.rating}</span>
 						</div>
-						<span className="text-lg font-semibold text-gray-900">
-							${product.price}
-						</span>
+						<div className="flex items-center gap-2">
+							<span className="text-lg font-semibold text-gray-900">
+								${product.price}
+							</span>
+							<button
+								type="button"
+								onClick={(e) => {
+									e.preventDefault();
+									e.stopPropagation();
+									addToCart(product);
+								}}
+								aria-label="Add to cart"
+								className="ml-2 inline-flex items-center gap-2 px-3 py-2 rounded-md bg-indigo-600 text-white hover:bg-indigo-700 shadow transition text-sm font-medium">
+								<FaShoppingCart className="w-4 h-4" />
+								Add
+							</button>
+						</div>
 					</div>
 				</div>
 			</div>
